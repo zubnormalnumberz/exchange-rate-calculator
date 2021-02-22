@@ -72,7 +72,6 @@ function App() {
 
     return (
         <div className="App">
-        {/* <div>Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div> */}
             <header className="App-header">
                 <div className="container-fluid">
                     <img src={image} width="125" alt="Logo" />
@@ -106,7 +105,9 @@ function App() {
                         resultAmount = {resultAmount}
                         />
                     </div>
-                </div>      
+                </div>
+                <br/>
+                <div>Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>     
         </header>
         </div>
     );
