@@ -3,11 +3,14 @@ import React, {useEffect, useState} from 'react'
 import InsertCurrencyRow from './components/insertCurrencyRow';
 import ResultCurrencyRow from './components/resultCurrencyRow';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { useAlert } from "react-alert";
 import './App.css';
 
 const BASE_URL = "https://api.exchangeratesapi.io/latest";
 
 function App() {
+
+    const alert = useAlert()
 
     const [currencyOptions, setCurrencyOptions] = useState([])
     const [fromCurrency, setFromCurrency] = useState()
@@ -40,7 +43,7 @@ function App() {
     }, [fromCurrency, toCurrency])
 
     function handleAmountChange(e){
-        setAmount(e.target.value)
+        e.target.value >= 0 ? setAmount(e.target.value) : alert.error('Negative numbers are not allowed') 
     }
 
     function handleSwap(e){

@@ -21,7 +21,7 @@ export default function ResultCurrencyRow(props){
                 </select>
             </div>
             <div className="col-sm">
-                <div className="d-flex flex-row-reverse">{resultAmount}</div>
+                <div className="d-flex flex-row-reverse">{Math.round((resultAmount + Number.EPSILON) * 100) / 100}</div>
             </div>
         </div>
     );

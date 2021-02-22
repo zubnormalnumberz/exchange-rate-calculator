@@ -3,10 +3,19 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { positions, Provider as AlertProvider } from 'react-alert'
+import AlertTemplate from 'react-alert-template-basic'
+
+const options = {
+  position: positions.MIDDLE,
+  timeout: 5000,
+}
 
 ReactDOM.render(
   <React.StrictMode>
+    <AlertProvider template={AlertTemplate} {...options}>
     <App />
+    </AlertProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );
