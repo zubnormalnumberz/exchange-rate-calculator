@@ -10,15 +10,43 @@ const BASE_URL = "https://api.exchangeratesapi.io/latest";
 function App() {
 
     const [currencyOptions, setCurrencyOptions] = useState([])
+    const [fromCurrency, setFromCurrency] = useState()
+    const [toCurrency, setToCurrency] = useState()
+    const [amount, setAmount] = useState(1)
+    const [exChangeRate, setExchangeRate] = useState()
+
+    let resultAmount
+    resultAmount = amount*exChangeRate
 
     useEffect(() => {
         fetch(BASE_URL)
         .then(res => res.json())
-        .then(data =>
+        .then(data =>{
+            const firstCurrency = Object.keys(data.rates)[0]
             setCurrencyOptions([data.base, ...Object.keys(data.rates)])
-            )
+            setFromCurrency(data.base)
+            setToCurrency(firstCurrency)
+            setExchangeRate(data.rates[firstCurrency])
+        })
         
     }, [])
+
+    useEffect(()=> {
+        if(fromCurrency != null && toCurrency != null){
+            fetch(`${BASE_URL}?base=${fromCurrency}&symbol=${toCurrency}`)
+            .then(res => res.json())
+            .then(data => setExchangeRate(data.rates[toCurrency]))
+        }
+    }, [fromCurrency, toCurrency])
+
+    function handleAmountChange(e){
+        setAmount(e.target.value)
+    }
+
+    function handleSwap(e){
+        setFromCurrency(toCurrency)
+        setToCurrency(fromCurrency)
+    }
 
     return (
         <div className="App">
@@ -32,20 +60,27 @@ function App() {
                     <div className="container">
                         <InsertCurrencyRow
                         currencyOptions = {currencyOptions}
+                        selectedCurrency = {fromCurrency}
+                        onChangeCurrency = {e => setFromCurrency(e.target.value)}
+                        insertAmount = {amount}
+                        onChangeAmount = {handleAmountChange}
                         />
                         <div className="row">
                             <div className="col-sm">
                                 <div class="d-grid gap-2">
-                                    <button class="btn btn-primary" type="button">Swap</button>
+                                    <button onClick={handleSwap} class="btn btn-primary" type="button">Swap</button>
                                 </div>
                             </div>
                             <div className="col-sm">
-                                <div className="d-flex flex-row-reverse">dafgk</div>
+                                <div className="d-flex flex-row-reverse">1 {fromCurrency} = {exChangeRate} {toCurrency}</div>
                             </div>
                         </div>
                         <br/>
                         <ResultCurrencyRow
                         currencyOptions = {currencyOptions}
+                        selectedCurrency = {toCurrency}
+                        onChangeCurrency = {e => setToCurrency(e.target.value)}
+                        resultAmount = {resultAmount}
                         />
                     </div>
                 </div>      
